@@ -4,6 +4,7 @@ import WithoutLens from './components/WithoutLens'
 import SimpleLens from './components/SimpleLens'
 import ComplexLens1 from './components/ComplexLens1'
 import ComplexLens2 from './components/ComplexLens2'
+import DealHttp from './components/DealHttp'
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
           <SimpleLens/>
           <ComplexLens1/>
           <ComplexLens2/>
+          <DealHttp/>
         </div>
     )
   }
