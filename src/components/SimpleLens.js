@@ -17,9 +17,9 @@ const SimpleLens = dive({ lens: 'simple', state: { ownHello: 1 } })(({ state$, e
         return (
             <div className={styles.box}>
               <div>
-                <h3>simpleLens</h3>
-                <h4>change from complex1 hello:{state.hello}</h4>
-                <h4>ownHello:{state.ownHello}</h4>
+                <div>simple-lens</div>
+                <div>change from complex1 hello:<span className={styles.common}>{state.hello}</span></div>
+                <div>ownHello:{state.ownHello}</div>
               </div>
             </div>
         )

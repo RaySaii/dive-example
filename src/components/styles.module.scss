@@ -1,10 +1,14 @@
 .box{
-  width: 40%;
+  width: 275px;
   display: flex;
   height:20%;
   justify-content: flex-start;
-  padding-top: 20px;
-  padding-left: 100px;
+  padding: 20px;
+  margin-left: 20px;
   box-sizing: border-box;
   align-items: center;
+  background: #d8d8d8;
+}
+.common{
+  color:red
 }

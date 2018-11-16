@@ -23,10 +23,10 @@ const ComplexLens1 = dive({
         return (
             <div className={styles.box}>
               <div>
-                <h3>complex-lens-1</h3>
-                <h4>hello:{state.hello}
+                <div>complex-lens-1</div>
+                <div>hello:<span className={styles.common}>{state.hello}</span>
                   <button onClick={eventHandle.handle('add')}>+</button>
-                </h4>
+                </div>
               </div>
             </div>
         )

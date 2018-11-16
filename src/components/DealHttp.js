@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 import {fromHttp, HttpComponent} from 'divejs/utils'
 
 const DealHttp = dive({ lens: 'http', state: { repos: {} } })(({ state$, eventHandle }) => {
-  const fetchResps = (q) => fromHttp(
+  const fetchRepos = (q) => fromHttp(
       fetch(`https://api.github.com/search/repositories?q=${q}&sort=stars&order=desc`)
           .then(res => res.json()),
   )
@@ -15,7 +15,7 @@ const DealHttp = dive({ lens: 'http', state: { repos: {} } })(({ state$, eventHa
           eventHandle.event('change').pipe(
               debounceTime(500),
               distinctUntilChanged(),
-              switchMap(val => val ? fetchResps(val) : of({})),
+              switchMap(val => val ? fetchRepos(val) : of({})),
               map(repos => state => ({ ...state, repos })),
           ),
       ),

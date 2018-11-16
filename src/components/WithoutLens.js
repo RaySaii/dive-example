@@ -18,11 +18,11 @@ const WithoutLens = dive({ state: { ownHello: 1 } })(({ props$, state$, eventHan
       ({hello},{ownHello})=>(
           <div className={styles.box}>
             <div>
-              <h3>without-lens</h3>
-              <h4>props hello:{hello}</h4>
-              <h4>ownHello:{ownHello}
+              <div>without-lens</div>
+              <div>props hello:{hello}</div>
+              <div>ownHello:{ownHello}
                 <button onClick={eventHandle.handle('add')}>+</button>
-              </h4>
+              </div>
             </div>
           </div>
       )
