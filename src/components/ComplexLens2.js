@@ -6,7 +6,9 @@ import styles from './styles.module.scss'
 
 const ComplexLens2 = dive({
   lens: {
-    get: state => ({ ...state.complex2, hello: state.complex1.hello }),
+    get: state => {
+      return ({ ...state.complex2, hello: state.complex1 ? state.complex1.hello : '' })
+    },
     set: (state, ownState) => ({ ...state, complex2: ownState }),
   },
   state: { ownHello: 1 },

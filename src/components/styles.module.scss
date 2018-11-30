@@ -1,14 +1,90 @@
-.box{
+.box {
   width: 275px;
   display: flex;
-  height:20%;
+  flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   padding: 20px;
   margin-left: 20px;
   box-sizing: border-box;
-  align-items: center;
-  background: #d8d8d8;
+  background: white;
 }
-.common{
-  color:red
+
+.git_box{
+  @extend .box;
+  height: 100%;
+}
+
+.common {
+  color: red
+}
+
+.drag_panel {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background: gray;
+  position: relative;
+  .drag_box {
+    position: absolute;
+    text-align: center;
+    color: white;
+    background: orange;
+    width: 200px;
+    height: 100px;
+    line-height: 100px;
+    cursor: pointer;
+    user-select: none;
+  }
+}
+.resizer_panel{
+  height: 400px;
+  display: flex;
+  overflow: hidden;
+  background: lightblue;
+  .resizer {
+    position: relative;
+    display: flex;
+    flex: 0 0 50px;
+    padding: 10px;
+    background: orange;
+    cursor: col-resize;
+    user-select: none;
+    align-items: center;
+    color: white;
+  }
+}
+
+
+.left,
+.right {
+  flex: 1 1 0;
+  padding: 0 20px;
+}
+.drag_list_panel{
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  background: gray;
+  position: relative;
+  .list_box{
+    text-align: center;
+    position: absolute;
+    color: white;
+    background: orange;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    cursor: pointer;
+    user-select: none;
+    &:nth-child(1){
+      background: red;
+    }
+    &:nth-child(2){
+      background: green;
+    }
+    &:nth-child(3){
+      background: blue;
+    }
+  }
 }
