@@ -13,28 +13,26 @@ const ComplexLens2 = dive({
   },
   state: { ownHello: 1 },
 })(({ state$, eventHandle }) => {
-  state$.update(
-      merge(
-          eventHandle.event('add').pipe(
-              mapTo(state => ({ ...state, ownHello: state.ownHello + 1 })),
-          ),
-      ),
-  )
-  return state$.pipe(
-      map(state => {
-        return (
-            <div className={styles.box}>
-              <div>
-                <div>complex-lens-2</div>
-                <div>get from complex1 hello:<span className={styles.common}>{state.hello}</span>
-                </div>
-                <div>ownHello:{state.ownHello}
-                  <button onClick={eventHandle.handle('add')}>+</button>
+  return {
+    DOM: state$.pipe(
+        map(state => {
+          return (
+              <div className={styles.box}>
+                <div>
+                  <div>complex-lens-2</div>
+                  <div>get from complex1 hello:<span className={styles.common}>{state.hello}</span>
+                  </div>
+                  <div>ownHello:{state.ownHello}
+                    <button onClick={eventHandle.handle('add')}>+</button>
+                  </div>
                 </div>
               </div>
-            </div>
-        )
-      }),
-  )
+          )
+        }),
+    ),
+    reducer: eventHandle.event('add').pipe(
+        mapTo(state => ({ ...state, ownHello: state.ownHello + 1 })),
+    ),
+  }
 })
 export default ComplexLens2

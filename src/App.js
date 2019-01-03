@@ -8,7 +8,8 @@ import DealHttp from './components/DealHttp'
 import Drag from './components/Drag'
 import Resizer from './components/Resizer'
 import DragList from './components/DragList'
-
+import dive,{setDevTool} from 'divejs';
+setDevTool(true)
 class App extends Component {
   render() {
     return (

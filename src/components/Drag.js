@@ -20,21 +20,23 @@ export default dive({
       map(([moveX, moveY]) => state => ({ ...state, x: moveX + state.prevX, y: moveY + state.prevY })),
   )
   const prev$ = fromEvent(window, 'mouseup').pipe(
-      mapTo(state => ({ ...state, prevX: state.x||0, prevY: state.y||0 })),
+      mapTo(state => ({ ...state, prevX: state.x || 0, prevY: state.y || 0 })),
   )
-  state$.update(merge(drag$, prev$))
   const mouseDown = eventHandle.handle('down')
-  return state$.pipe(
-      map((state) => {
-        const { x, y }=state
-        return (
-            <div className={styles.drag_panel}>
-              <div className={styles.drag_box} onClick={() => console.log('drag')} onMouseDown={mouseDown}
-                   style={{ left: x, top: y }}>
-                drag me
+  return {
+    DOM: state$.pipe(
+        map((state) => {
+          const { x, y } = state
+          return (
+              <div className={styles.drag_panel}>
+                <div className={styles.drag_box} onMouseDown={mouseDown}
+                     style={{ left: x, top: y }}>
+                  drag me
+                </div>
               </div>
-            </div>
-        )
-      }),
-  )
+          )
+        }),
+    ),
+    reducer: merge(drag$, prev$),
+  }
 })

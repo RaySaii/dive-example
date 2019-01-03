@@ -29,20 +29,22 @@ export default dive({
       move$.pipe(map(([x2, y2]) => ({ x2, y2 })), delay(200)),
       move$.pipe(map(([x3, y3]) => ({ x3, y3 })), delay(300)),
   )
-  state$.update(merge(drag$, prev$))
   const mouseDown = eventHandle.handle('down')
-  return state$.pipe(
-      map(({ x, x1, x2, x3, y, y1, y2, y3 }) => {
-        return (
-            <div className={styles.drag_list_panel}>
-              <div className={styles.list_box} style={{ left: x3, top: y3 }}/>
-              <div className={styles.list_box} style={{ left: x2, top: y2 }}/>
-              <div className={styles.list_box} style={{ left: x1, top: y1 }}/>
-              <div className={styles.list_box} onMouseDown={mouseDown} style={{ left: x, top: y }}>
-                drag me
+  return {
+    DOM: state$.pipe(
+        map(({ x, x1, x2, x3, y, y1, y2, y3 }) => {
+          return (
+              <div className={styles.drag_list_panel}>
+                <div className={styles.list_box} style={{ left: x3, top: y3 }}/>
+                <div className={styles.list_box} style={{ left: x2, top: y2 }}/>
+                <div className={styles.list_box} style={{ left: x1, top: y1 }}/>
+                <div className={styles.list_box} onMouseDown={mouseDown} style={{ left: x, top: y }}>
+                  drag me
+                </div>
               </div>
-            </div>
-        )
-      }),
-  )
+          )
+        }),
+    ),
+    reducer: merge(drag$, prev$),
+  }
 })
