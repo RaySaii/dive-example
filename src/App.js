@@ -9,6 +9,7 @@ import Drag from './components/Drag'
 import Resizer from './components/Resizer'
 import DragList from './components/DragList'
 import dive,{setDevTool} from 'divejs';
+import Timer from './components/Timer'
 setDevTool(true)
 class App extends Component {
   render() {
@@ -18,11 +19,12 @@ class App extends Component {
           <Resizer/>
           <DragList/>
           <div className="data-panel">
-            <div className="box1">
+            <div>
               <WithoutLens hello={333}/>
               <SimpleLens/>
               <ComplexLens1/>
               <ComplexLens2/>
+              <Timer duration={10}/>
             </div>
             <DealHttp/>
           </div>

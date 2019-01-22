@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "divejs": "^2.0.1",
+    "divejs": "^3.0.2",
     "lodash": "^4.17.11",
-    "react": "^16.7.0-alpha.2",
-    "react-dom": "^16.7.0-alpha.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
     "react-scripts": "2.1.1",
     "rxjs": "^6.3.3"
   },
@@ -26,6 +26,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "node-sass": "^4.10.0"
+    "node-sass": "^4.11.0"
   }
 }

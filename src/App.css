@@ -1,6 +1,7 @@
 .App {
   display: flex;
   flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .App-logo {
@@ -33,7 +34,6 @@
 }
 .data-panel{
   width: 100%;
-  height: 400px;
   display: flex;
   background:  #d8d8d8;
 
