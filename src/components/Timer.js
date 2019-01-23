@@ -1,6 +1,6 @@
 import dive, {debug} from 'divejs'
 import React from 'react'
-import {concat, map, switchMap, switchMapTo, take, withLatestFrom} from 'rxjs/operators'
+import {concat, map, switchMap, switchMapTo, take, takeWhile, withLatestFrom} from 'rxjs/operators'
 import {combineLatest, interval, timer} from 'rxjs'
 import styles from './styles.module.scss'
 
@@ -21,7 +21,13 @@ export default dive({
     ),
     reducer: eventHandle.event('count').pipe(
         withLatestFrom(props$, (_, { duration }) => duration),
-        switchMap(duration => timer(0, 1000).pipe(take(duration + 1), map(num => ({ rest: duration - num })))),
+        switchMap(duration =>
+            timer(0, 1000).pipe(
+                map(num => duration - num),
+                takeWhile(rest => rest >= 0),
+                map(rest => ({ rest })),
+            ),
+        ),
     ),
   }
 })
