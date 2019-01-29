@@ -10,6 +10,7 @@ import Resizer from './components/Resizer'
 import DragList from './components/DragList'
 import dive,{setDevTool} from 'divejs';
 import Timer from './components/Timer'
+import Lifecycle from './components/Lifecycle'
 setDevTool(true)
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
               <Timer duration={10}/>
             </div>
             <DealHttp/>
+            <Lifecycle min={2}/>
           </div>
         </div>
     )

@@ -15,6 +15,11 @@
   height: 100%;
 }
 
+.lifecycle_box{
+  @extend .box;
+  height: 100%;
+}
+
 .common {
   color: red
 }
