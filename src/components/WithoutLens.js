@@ -4,7 +4,9 @@ import {map, mapTo} from 'rxjs/operators'
 import React from 'react'
 import styles from './styles.module.scss'
 
-const WithoutLens = dive({ state: { ownHello: 1 } })(({ props$, state$, eventHandle }) => {
+const WithoutLens = dive({
+  state: { ownHello: 1 },
+})(({ props$, state$, eventHandle }) => {
   return {
     DOM: combineLatest(
         props$,

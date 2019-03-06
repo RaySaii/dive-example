@@ -5,13 +5,8 @@ import React from 'react'
 import styles from './styles.module.scss'
 
 const ComplexLens2 = dive({
-  lens: {
-    get: state => {
-      return ({ ...state.complex2, hello: state.complex1.hello })
-    },
-    set: (state, ownState) => ({ ...state, complex2: ownState }),
-  },
-  state: { ownHello: 1 },
+  state: { hello: 1 },
+  globalState: ['hello'],
 })(({ state$, eventHandle }) => {
   return {
     DOM: state$.pipe(
@@ -20,9 +15,7 @@ const ComplexLens2 = dive({
               <div className={styles.box}>
                 <div>
                   <div>complex-lens-2</div>
-                  <div>get from complex1 hello:<span className={styles.common}>{state.hello}</span>
-                  </div>
-                  <div>ownHello:{state.ownHello}
+                  <div>hello:{state.hello}
                     <button onClick={eventHandle.handle('add')}>+</button>
                   </div>
                 </div>
@@ -31,7 +24,7 @@ const ComplexLens2 = dive({
         }),
     ),
     reducer: eventHandle.event('add').pipe(
-        mapTo(state => ({ ...state, ownHello: state.ownHello + 1 })),
+        mapTo(state => ({ ...state, hello: state.hello + 1 })),
     ),
   }
 })

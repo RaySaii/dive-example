@@ -2,11 +2,11 @@ import dive, {debug, shouldUpdate} from 'divejs'
 import {combineLatest, interval, merge} from 'rxjs'
 import {map, mapTo, switchMapTo} from 'rxjs/operators'
 import React from 'react'
-import styles from './styles.module.scss'; 
+import styles from './styles.module.scss'
 
-export default dive()(({ state$, props$, didMount }) => {
+export default dive()(({ state$, props$, eventHandle }) => {
 
-  const a$ = didMount.pipe(
+  const a$ = eventHandle.didMount.pipe(
       switchMapTo(interval(1000)),
       map(a => ({ a })),
   )

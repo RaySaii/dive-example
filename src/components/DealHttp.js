@@ -4,7 +4,9 @@ import {map, mapTo, switchMap, debounceTime, filter, distinctUntilChanged} from 
 import React from 'react'
 import styles from './styles.module.scss'
 
-const DealHttp = dive({ lens: 'http', state: { repos: {} } })(({ state$, eventHandle }) => {
+const DealHttp = dive({
+  state: { repos: {} },
+})(({ state$, eventHandle }) => {
   const fetchRepos = (q) => fromHttp(
       fetch(`https://api.github.com/search/repositories?q=${q}&sort=stars&order=desc&`)
           .then(res => res.json()),
