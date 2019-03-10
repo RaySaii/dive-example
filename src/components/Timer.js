@@ -10,24 +10,23 @@ export default dive({
     rest: 0,
   },
 })(({ state$, props$, eventHandle }) => {
-  return {
-    DOM: state$.pipe(
-        map(({ rest }) => {
-          return <div className={styles.box}>
-            <button disabled={rest}
-                    onClick={eventHandle.handle('count')}>{rest ? (rest + '秒后重试') : '点击开始计时'}</button>
-          </div>
-        }),
-    ),
-    reducer: eventHandle.event('count').pipe(
-        withLatestFrom(props$, (_, { duration }) => duration),
-        switchMap(duration =>
-            timer(0, 1000).pipe(
-                map(num => duration - num),
-                takeWhile(rest => rest >= 0),
-                map(rest => ({ rest })),
-            ),
-        ),
-    ),
-  }
+  eventHandle.event('count').pipe(
+      withLatestFrom(props$, (_, { duration }) => duration),
+      switchMap(duration =>
+          timer(0, 1000).pipe(
+              map(num => duration - num),
+              takeWhile(rest => rest >= 0),
+          ),
+      ),
+  ).reduce(rest => state => {
+    state.rest = rest
+  })
+  return state$.pipe(
+      map(({ rest }) => {
+        return <div className={styles.box}>
+          <button disabled={rest}
+                  onClick={eventHandle.handle('count')}>{rest ? (rest + '秒后重试') : '点击开始计时'}</button>
+        </div>
+      }),
+  )
 })

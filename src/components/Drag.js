@@ -7,7 +7,7 @@ import {fromEvent, merge} from 'rxjs'
 export default dive({
   state: { prevX: 0, prevY: 0 },
 })(({ state$, eventHandle }) => {
-  const drag$ = eventHandle.event('down').pipe(
+  eventHandle.event('down').pipe(
       switchMap(e => {
         const downX = e.clientX
         const downY = e.clientY
@@ -16,27 +16,29 @@ export default dive({
             takeUntil(fromEvent(window, 'mouseup')),
         )
       }),
-  ).pipe(
-      map(([moveX, moveY]) => state => ({ ...state, x: moveX + state.prevX, y: moveY + state.prevY })),
+  ).reduce(
+      ([moveX, moveY]) => state => {
+        state.x = moveX + state.prevX
+        state.y = moveY + state.prevY
+      },
   )
-  const prev$ = fromEvent(window, 'mouseup').pipe(
-      mapTo(state => ({ ...state, prevX: state.x || 0, prevY: state.y || 0 })),
+  fromEvent(window, 'mouseup').reduce(_ => state => {
+        state.prevX = state.x || 0
+        state.prevY = state.y || 0
+      },
   )
   const mouseDown = eventHandle.handle('down')
-  return {
-    DOM: state$.pipe(
-        map((state) => {
-          const { x, y } = state
-          return (
-              <div className={styles.drag_panel}>
-                <div className={styles.drag_box} onMouseDown={mouseDown}
-                     style={{ left: x, top: y }}>
-                  drag me
-                </div>
+  return state$.pipe(
+      map((state) => {
+        const { x, y } = state
+        return (
+            <div className={styles.drag_panel}>
+              <div className={styles.drag_box} onMouseDown={mouseDown}
+                   style={{ left: x, top: y }}>
+                drag me
               </div>
-          )
-        }),
-    ),
-    reducer: merge(drag$, prev$),
-  }
+            </div>
+        )
+      }),
+  )
 })

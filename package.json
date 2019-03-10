@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "divejs": "^4.0.0",
+    "divejs": "^4.0.7",
+    "immer": "^2.1.1",
     "lodash": "^4.17.11",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.1",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.4.0"
   },
   "scripts": {
     "start": "react-scripts start",

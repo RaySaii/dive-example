@@ -9,29 +9,28 @@ import ComplexLens2 from './ComplexLens2'
 const SimpleLens = dive({
   state: { hello: 1 },
 })(({ state$, eventHandle }) => {
-  const hello$ = merge(
+  merge(
       ComplexLens1.globalEvent.event('add'),
       eventHandle.event('add'),
   )
-      .pipe(mapTo(state => ({ ...state, hello: state.hello + 1 })))
-  return {
-    DOM: combineLatest(
-        ComplexLens2.globalState$,
-        state$,
-    ).pipe(
-        map(([complex, state]) => {
-          return (
-              <div className={styles.box}>
-                <div>
-                  <div>simple-lens</div>
-                  <div>hello:{state.hello}</div>
-                  <div>Complex2Hello:{complex.hello}</div>
-                </div>
+      .reduce(_ => state => {
+        state.hello++
+      })
+  return combineLatest(
+      ComplexLens2.globalState$,
+      state$,
+  ).pipe(
+      map(([complex, state]) => {
+        return (
+            <div className={styles.box}>
+              <div>
+                <div>simple-lens</div>
+                <div>hello:{state.hello}</div>
+                <div>Complex2Hello:{complex.hello}</div>
               </div>
-          )
-        }),
-    ),
-    reducer: hello$,
-  }
+            </div>
+        )
+      }),
+  )
 })
 export default SimpleLens

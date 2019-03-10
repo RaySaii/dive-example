@@ -7,25 +7,24 @@ import styles from './styles.module.scss'
 const WithoutLens = dive({
   state: { ownHello: 1 },
 })(({ props$, state$, eventHandle }) => {
-  return {
-    DOM: combineLatest(
-        props$,
-        state$,
-        ({ hello }, { ownHello }) => (
-            <div className={styles.box}>
-              <div>
-                <div>without-lens</div>
-                <div>props hello:{hello}</div>
-                <div>ownHello:{ownHello}
-                  <button onClick={eventHandle.handle('add')}>+</button>
-                </div>
+  eventHandle.event('add').reduce(_ => state => {
+    state.ownHello++
+  })
+
+  return combineLatest(
+      props$,
+      state$,
+      ({ hello }, { ownHello }) => (
+          <div className={styles.box}>
+            <div>
+              <div>without-lens</div>
+              <div>props hello:{hello}</div>
+              <div>ownHello:{ownHello}
+                <button onClick={eventHandle.handle('add')}>+</button>
               </div>
             </div>
-        ),
-    ),
-    reducer: eventHandle.event('add').pipe(
-        mapTo(state => ({ ...state, ownHello: state.ownHello + 1 })),
-    ),
-  }
+          </div>
+      ),
+  )
 })
 export default WithoutLens

@@ -20,31 +20,41 @@ export default dive({
       withLatestFrom(state$, ([moveX, moveY], { prevX, prevY }) => ([moveX + prevX, moveY + prevY])),
       share(),
   )
-  const prev$ = fromEvent(window, 'mouseup').pipe(
-      mapTo(state => ({ ...state, prevX: state.x || 0, prevY: state.y || 0 })),
+  fromEvent(window, 'mouseup').reduce(
+      _ => state => {
+        state.prevX = state.x || 0
+        state.prevY = state.y || 0
+      },
   )
-  const drag$ = merge(
-      move$.pipe(map(([x, y]) => ({ x, y }))),
-      move$.pipe(map(([x1, y1]) => ({ x1, y1 })), delay(100)),
-      move$.pipe(map(([x2, y2]) => ({ x2, y2 })), delay(200)),
-      move$.pipe(map(([x3, y3]) => ({ x3, y3 })), delay(300)),
-  )
+  move$.reduce(([x, y]) => state => {
+    state.x = x
+    state.y = y
+  })
+  move$.pipe(delay(100)).reduce(([x, y]) => state => {
+    state.x1 = x
+    state.y1 = y
+  })
+  move$.pipe(delay(200)).reduce(([x, y]) => state => {
+    state.x2 = x
+    state.y2 = y
+  })
+  move$.pipe(delay(300)).reduce(([x, y]) => state => {
+    state.x3 = x
+    state.y3 = y
+  })
   const mouseDown = eventHandle.handle('down')
-  return {
-    DOM: state$.pipe(
-        map(({ x, x1, x2, x3, y, y1, y2, y3 }) => {
-          return (
-              <div className={styles.drag_list_panel}>
-                <div className={styles.list_box} style={{ left: x3, top: y3 }}/>
-                <div className={styles.list_box} style={{ left: x2, top: y2 }}/>
-                <div className={styles.list_box} style={{ left: x1, top: y1 }}/>
-                <div className={styles.list_box} onMouseDown={mouseDown} style={{ left: x, top: y }}>
-                  drag me
-                </div>
+  return state$.pipe(
+      map(({ x, x1, x2, x3, y, y1, y2, y3 }) => {
+        return (
+            <div className={styles.drag_list_panel}>
+              <div className={styles.list_box} style={{ left: x3, top: y3 }}/>
+              <div className={styles.list_box} style={{ left: x2, top: y2 }}/>
+              <div className={styles.list_box} style={{ left: x1, top: y1 }}/>
+              <div className={styles.list_box} onMouseDown={mouseDown} style={{ left: x, top: y }}>
+                drag me
               </div>
-          )
-        }),
-    ),
-    reducer: merge(drag$, prev$),
-  }
+            </div>
+        )
+      }),
+  )
 })

@@ -11,31 +11,30 @@ const DealHttp = dive({
       fetch(`https://api.github.com/search/repositories?q=${q}&sort=stars&order=desc&`)
           .then(res => res.json()),
   )
-  return {
-    DOM: state$.pipe(
-        map(state => {
-          return (
-              <div className={styles.git_box}>
-                <div>git repository:</div>
-                <input onChange={e => eventHandle.handle('change')(e.target.value)}/>
-                <HttpComponent
-                    status={state.repos.status}
-                    loading={<div>Loading...</div>}
-                    data={state.repos.data}
-                    render={data => data.items.slice(0, 12).map((item, index) => (
-                        <div key={index}>{item.name}</div>
-                    ))}
-                />
-              </div>
-          )
-        }),
-    ),
-    reducer: eventHandle.event('change').pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        switchMap(val => val ? fetchRepos(val) : of({})),
-        map(repos => state => ({ ...state, repos })),
-    ),
-  }
+  eventHandle.event('change').pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(val => val ? fetchRepos(val) : of({})),
+  ).reduce(repos => state => {
+    state.repos = repos
+  })
+  return state$.pipe(
+      map(state => {
+        return (
+            <div className={styles.git_box}>
+              <div>git repository:</div>
+              <input onChange={e => eventHandle.handle('change')(e.target.value)}/>
+              <HttpComponent
+                  status={state.repos.status}
+                  loading={<div>Loading...</div>}
+                  data={state.repos.data}
+                  render={data => data.items.slice(0, 12).map((item, index) => (
+                      <div key={index}>{item.name}</div>
+                  ))}
+              />
+            </div>
+        )
+      }),
+  )
 })
 export default DealHttp

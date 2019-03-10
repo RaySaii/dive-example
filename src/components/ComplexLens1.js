@@ -6,27 +6,25 @@ import styles from './styles.module.scss'
 
 const ComplexLens1 = dive({
   state: { hello: 1 },
-  globalEvent:['add']
+  globalEvent: ['add'],
 })(({ state$, eventHandle }) => {
+  eventHandle.event('add').reduce(_ => state => {
+    state.hello++
+  })
 
-  return {
-    DOM: state$.pipe(
-        map(state => {
-          return (
-              <div className={styles.box}>
-                <div>
-                  <div>complex-lens-1</div>
-                  <div>hello:<span className={styles.common}>{state.hello}</span>
-                    <button onClick={eventHandle.handle('add')}>+</button>
-                  </div>
+  return state$.pipe(
+      map(state => {
+        return (
+            <div className={styles.box}>
+              <div>
+                <div>complex-lens-1</div>
+                <div>hello:<span className={styles.common}>{state.hello}</span>
+                  <button onClick={eventHandle.handle('add')}>+</button>
                 </div>
               </div>
-          )
-        }),
-    ),
-    reducer: eventHandle.event('add').pipe(
-        mapTo(state => ({ ...state, hello: state.hello + 1 })),
-    ),
-  }
+            </div>
+        )
+      }),
+  )
 })
 export default ComplexLens1
